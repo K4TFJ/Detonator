@@ -20,9 +20,9 @@ and it reads from DATA lines 10100-10160
 10160 DATA 0,208,201,2,176,8,173,16,208,9,1,141,16,208,96
 ```
 
-I have made a few comments
+I have added a few comments to the original file.
 
-Look at the 'improved' file for a smaller and faster version (work in progress... untested as of yet)
+Have a look at the 'improved' file for a smaller and faster version (work in progress... untested as of yet)
 There was some uneccesary storing, loading and comparing, so I am attempting to fix that. I dont expect a 
 large increase in speed. It is definately smaller, so less to type in once I have the DATA lines ready.
 
