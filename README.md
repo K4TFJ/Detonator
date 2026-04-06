@@ -1,4 +1,4 @@
-#Detonator from the book "Commodore 64 Game Book 2" by Gregg Barnett
+# Detonator from the book "Commodore 64 Game Book 2" by Gregg Barnett
 
 KeyscanASM is the machine code that is poked into memory.
 Line 50 is the POKE routine 
