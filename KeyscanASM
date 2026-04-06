@@ -1,0 +1,88 @@
+                                * = $C000
+C000   A5 C5      GETKEY        LDA $C5         ;last key pressed (64=none)
+C002   85 B4                    STA $B4         ;store last key for multiple compares
+C004   A9 00                    LDA #$00
+C006   85 B3                    STA $B3         ; store 0 to zpB3
+
+C008   A5 B4      CFIRE         LDA $B4         ; grab last key
+C00A   C9 3C                    CMP #$3C        ; compare with 60 space
+C00C   D0 04                    BNE CUP         ; not this key, check more
+C00E   A9 01                    LDA #$01        ; 
+C010   85 B3                    STA $B3         ; store 1 to zpB3 
+
+C012   A5 B4      CUP           LDA $B4         ; grab last key
+C014   C9 3E                    CMP #$3E        ; compare with 62 Q
+C016   D0 04                    BNE CDOWN       ; not this key, check more 
+C018   A9 01                    LDA #$01
+C01A   85 B2                    STA $B2         ; store 1 to zpB2 
+
+C01C   A5 B4      CDOWN         LDA $B4         ; grab last key
+C01E   C9 0C                    CMP #$0C        ; compare with 12 Z
+C020   D0 04                    BNE CLEFT       ; not this key, check more 
+C022   A9 02                    LDA #$02
+C024   85 B2                    STA $B2         ; store 2 to zpB2 
+
+C026   A5 B4      CLEFT         LDA $B4         ; grab last key
+C028   C9 21                    CMP #$21        ; compare with 33 I
+C02A   D0 04                    BNE CRIGHT      ; not this key, check more
+C02C   A9 03                    LDA #$03
+C02E   85 B2                    STA $B2         ; store 3 to zpB2 
+
+C030   A5 B4      CRIGHT        LDA $B4         ; grab last key
+C032   C9 29                    CMP #$29        ; compare with 41 P
+C034   D0 04                    BNE LC03A
+C036   A9 04                    LDA #$04
+C038   85 B2                    STA $B2         ; store 4 to zpB2 
+
+C03A   A5 B2      DOUP          LDA $B2
+C03C   C9 01                    CMP #$01
+C03E   D0 0A                    BNE DODOWN
+C040   AD 01 D0                 LDA $D001       ; IS THIS NEEDED?
+C043   CE 01 D0                 DEC $D001       ; DEC SPRITE 0 Y POS
+C046   CE 01 D0                 DEC $D001       ; DEC SPRITE 0 Y POS
+C049   60                       RTS
+
+C04A   C9 02      DODOWN        CMP #$02
+C04C   D0 0A                    BNE DOLEFT
+C04E   AD 01 D0                 LDA $D001       ; IS THIS NEEDED?
+C051   EE 01 D0                 INC $D001       ; INC SPRITE 0 Y POS
+C054   EE 01 D0                 INC $D001       ; INC SPRITE 0 Y POS
+C057   60                       RTS
+
+C058   C9 03      DOLEFT        CMP #$03
+C05A   D0 16                    BNE DORIHT
+C05C   CE 00 D0                 DEC $D000       ; DEC SPRITE 0 X POS
+C05F   CE 00 D0                 DEC $D000       ; DEC SPRITE 0 X POS
+C062   AD 00 D0                 LDA $D000
+C065   C9 FE                    CMP #$FE
+C067   90 08                    BCC LDONE
+C069   AD 10 D0                 LDA $D010       ; X CROSSED A BOUNDRY
+C06C   29 FE                    AND #$FE        ; MODIFY X MSB
+C06E   8D 10 D0                 STA $D010
+C071   60         LDONE         RTS
+
+C072   EE 00 D0   DORIHT        INC $D000
+C075   EE 00 D0                 INC $D000
+C078   AD 00 D0                 LDA $D000
+C07B   C9 02                    CMP #$02
+C07D   B0 08                    BCS RDONE
+C07F   AD 10 D0                 LDA $D010       ; X CROSSED A BOUNDRY
+C082   09 01                    ORA #$01        ; MODIFY X MSB
+C084   8D 10 D0                 STA $D010
+C087   60         RDONE         RTS
+
+                                .END
+
+;defined symbols used as labels
+ CUP          $C012
+ CDOWN        $C01C
+ CLEFT        $C026
+ CRIGHT       $C030
+ DOUP         $C03A
+ DODOWN       $C04A
+ DOLEFT       $C058
+ DORIHT       $C072
+ LDONE        $C071
+ RDONE        $C087
+ GETKEY       $C000
+ CFIRE        $C008
