@@ -1,0 +1,57 @@
+                                * = $C000
+C000   A5 C5      GETKEY        LDA $C5
+C002   85 B4                    STA $B4
+C004   A9 00                    LDA #$00
+C006   85 B3                    STA $B3
+C008   A5 B4      CFIRE         LDA $B4
+C00A   C9 3C                    CMP #$3C
+C00C   D0 04                    BNE CUP
+C00E   A9 01                    LDA #$01
+C010   85 B3                    STA $B3
+C012   A5 B4      CUP           LDA $B4
+C014   C9 3E                    CMP #$3E
+C016   D0 07                    BNE CDOWN
+C018   CE 01 D0                 DEC $D001
+C01B   CE 01 D0                 DEC $D001
+C01E   60                       RTS
+C01F   A5 B4      CDOWN         LDA $B4
+C021   C9 0C                    CMP #$0C
+C023   D0 07                    BNE CLEFT
+C025   EE 01 D0                 INC $D001
+C028   EE 01 D0                 INC $D001
+C02B   60                       RTS
+C02C   A5 B4      CLEFT         LDA $B4
+C02E   C9 21                    CMP #$21
+C030   D0 16                    BNE CRIGHT
+C032   CE 00 D0                 DEC $D000
+C035   CE 00 D0                 DEC $D000
+C038   AD 00 D0                 LDA $D000
+C03B   C9 FE                    CMP #$FE
+C03D   90 08                    BCC LDONE
+C03F   AD 10 D0                 LDA $D010
+C042   29 FE                    AND #$FE
+C044   8D 10 D0                 STA $D010
+C047   60         LDONE         RTS
+C048   A5 B4      CRIGHT        LDA $B4
+C04A   C9 29                    CMP #$29
+C04C   D0 15                    BNE RDONE
+C04E   EE 00 D0                 INC $D000
+C051   EE 00 D0                 INC $D000
+C054   AD 00 D0                 LDA $D000
+C057   C9 02                    CMP #$02
+C059   B0 08                    BCS RDONE
+C05B   AD 10 D0                 LDA $D010
+C05E   09 01                    ORA #$01
+C060   8D 10 D0                 STA $D010
+C063   60         RDONE         RTS
+                                .END
+
+;defined symbols used as labels
+ CUP          $C012
+ CDOWN        $C01F
+ CLEFT        $C02C
+ CRIGHT       $C048
+ LDONE        $C047
+ RDONE        $C063
+ GETKEY       $C000
+ CFIRE        $C008
