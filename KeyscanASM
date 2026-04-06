@@ -30,7 +30,7 @@ C02E   85 B2                    STA $B2         ; store 3 to zpB2
 
 C030   A5 B4      CRIGHT        LDA $B4         ; grab last key
 C032   C9 29                    CMP #$29        ; compare with 41 P
-C034   D0 04                    BNE LC03A
+C034   D0 04                    BNE DOUP
 C036   A9 04                    LDA #$04
 C038   85 B2                    STA $B2         ; store 4 to zpB2 
 
